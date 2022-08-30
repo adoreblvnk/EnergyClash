@@ -1,0 +1,13 @@
+# git
+.git/
+.gitignore
+
+# python
+__pycache__/
+**/__pycache__/
+
+# venv
+venv/
+
+# others
+README.md
