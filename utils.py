@@ -7,8 +7,7 @@ class Login:
     def insert_user(self, user: str, password: str):
         conn = sql.connect(config.DB_PATH)
         cur = conn.cursor()
-        cur.execute(
-            "INSERT INTO login (user, password) VALUES (?, ?)", user, password)
+        cur.execute("INSERT INTO login (user, password) VALUES (?, ?)", (user, password))
         conn.commit()
         conn.close()
 

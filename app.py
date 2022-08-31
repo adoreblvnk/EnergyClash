@@ -66,10 +66,26 @@ def login():
         password = request.form["password"]
         if Login().validate(name, password):
             session["logged_in"] = True
-            flash("Successfully logged in", "success")
+            flash("Successfully logged into EnergyClash", "success")
             return redirect("/")
         flash("Incorrect login credentials", "danger")
     return render_template("login.html")
+
+
+@app.route("/register", methods=("GET", "POST"))
+def register():
+    if request.method == "POST":
+        name = request.form["name"]
+        password = request.form["password"]
+        try:
+            Login().insert_user(name, password)
+            session["logged_in"] = True
+            flash("Thank you for signing up for EnergyClash", "success")
+            return redirect("/")
+        except Exception as e:
+            print(e)
+            flash("Error while creating new user", "danger")
+    return render_template("register.html")
 
 
 @app.route("/prizes")
