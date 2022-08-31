@@ -26,9 +26,9 @@ def pricing():
 def blog_details():
     return render_template("blog-details.html")
 
-@app.route("/blog")
-def blog():
-    return render_template("blog.html")
+@app.route("/prizes")
+def prizes():
+    return render_template("prizes.html")
 
 @app.route("/contact")
 def contact():
