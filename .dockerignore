@@ -1,3 +1,7 @@
+# git
+.git/
+.gitignore
+
 # python
 __pycache__/
 **/__pycache__/
@@ -7,3 +11,6 @@ venv/
 
 # database
 *.db
+
+# others
+README.md

@@ -277,8 +277,13 @@ ol {
 
 .header-section.header-normal .header__logo {
 	padding-bottom: 30px;
+	animation: color-pulse 1s infinite;
 }
-
+@keyframes color-pulse {
+	0%, ,50, 100% {filter: hue-rotate(0deg);}
+    25% {filter: hue-rotate(35deg);}
+    75% {filter: hue-rotate(-35deg);}
+}
 .header-section.header-normal .header__menu {
 	padding-bottom: 30px;
 }
@@ -1062,6 +1067,7 @@ ol {
 
 .footer__text-about .footer__logo {
 	margin-bottom: 24px;
+	animation: color-pulse 1s infinite;
 }
 
 .footer__text-about .footer__logo a {
@@ -2468,7 +2474,7 @@ ol {
 .contact-form form .input-list input {
 	font-size: 14px;
 	color: #444444;
-	width: calc(33.33% - 23px);
+	width: calc(100.0% - 23px);
 	height: 50px;
 	padding-left: 20px;
 	border: 1px solid #e1e1e1;
@@ -2940,6 +2946,10 @@ ol {
 	}
 	.offcanvas__menu__wrapper .offcanvas__logo {
 		margin-bottom: 30px;
+	}
+
+	.offcanvas__logo img{
+	    animation: color-pulse 1s infinite;
 	}
 	.offcanvas__menu__wrapper .offcanvas__menu {
 		display: none;
