@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block body %}
+
+<!-- login form -->
+<div class="contact-form spad">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-8">
+        <h3>LOGIN</h3>
+        <form method="POST">
+          <div class="input-list form-group">
+            <input type="text" placeholder="Name" name="name" value="{{ request.form['name'] }}" required/>
+          </div>
+          <div class="input-list form-group">
+            <input type="text" placeholder="Password" name="password" value="{{ request.form['password'] }}" required/>
+          </div>
+          <button type="submit" class="site-btn">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

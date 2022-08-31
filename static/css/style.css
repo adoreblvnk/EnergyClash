@@ -2474,7 +2474,7 @@ ol {
 .contact-form form .input-list input {
 	font-size: 14px;
 	color: #444444;
-	width: calc(33.33% - 23px);
+	width: calc(100.0% - 23px);
 	height: 50px;
 	padding-left: 20px;
 	border: 1px solid #e1e1e1;
