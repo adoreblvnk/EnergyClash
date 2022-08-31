@@ -37,6 +37,9 @@ def contact():
     return render_template("contact.html")
 
 # add routes here
+@app.route("/login", methods=("GET", "POST"))
+def login():
+    return render_template("login.html")
 
 @app.errorhandler(404)
 def page_not_found(e):
