@@ -61,6 +61,7 @@ def login():
         password = request.form["password"]
         if Login().validate(name, password):
             session["logged_in"] = True
+            session["name"] = name
             flash("Successfully logged into EnergyClash", "success")
             return redirect("/")
         flash("Incorrect login credentials", "danger")
@@ -72,9 +73,11 @@ def register():
     if request.method == "POST":
         name = request.form["name"]
         password = request.form["password"]
+        district = request.form["district"]
         try:
-            Login().insert_user(name, password)
+            Login().insert_user(name, password, district)
             session["logged_in"] = True
+            session["name"] = name
             flash("Thank you for signing up for EnergyClash", "success")
             return redirect("/")
         except Exception as e:
@@ -86,6 +89,13 @@ def register():
 @app.route("/prizes")
 def prizes():
     return render_template("prizes.html")
+
+
+@app.route("/upload_bill", methods=("GET", "POST"))
+def upload_bill():
+    if request.method == "POST":
+        pass
+    return render_template("upload_bill.html")
 
 
 @app.errorhandler(404)
