@@ -52,7 +52,6 @@ def contact():
 
 
 # add routes here
-=======
 @app.route("/login", methods=("GET", "POST"))
 def login():
     if request.method == "POST":
