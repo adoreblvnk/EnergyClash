@@ -1,0 +1,170 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__option">
+                    <a href="./index.html"><span class="fa fa-home"></span> Home</a>
+                    <span>Prizes</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Prizes Section Begin -->
+<section class="blog-section prize_page js-container prize_background">
+<!--    <img src="../static/img/prizes/eco_background.jpg">-->
+<!--    Background to change as it is not responsive, make it into a gif too    -->
+    <div class="container reveal">
+        <div class="row">
+            <div class="col-md-6 mx-auto align-middle text-center bg-image">
+<!--                <img class="w-100 img-fluid col-md-8"  style="height:10em;width:20em;">-->
+<!--                <div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);">-->
+                    <h1 class="prize-title">&nbsp;&nbsp;Prizes<img id="happy_robot" src="../static/img/prizes/happy_robot.gif" style="height:10vw;"></h1>
+<!--                </div>-->
+            </div>
+        </div>
+        <div class="row mx-auto align-middle justify-content-center">
+            <div class="col-sm-6 text-center m-2">
+                <img class="img-fluid" src="../static/img/prizes/1st_pos.png">
+                <div class="prizes">
+<!--                    <div style="background-color:white;position:absolute;left:-2vw;top:-1.5vw;height:6vw;width:32.5vw;"></div>-->
+                    <p class="prize-info-2"><img class="prize-info" src="../static/img/prizes/1_trophy.png" style="height:1.2em;"> $20,000</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-auto align-middle justify-content-center">
+            <div class="col-sm-6 text-center m-2">
+                <img class="img-fluid" src="../static/img/prizes/2nd_pos.png">
+                <div class="prizes">
+                    <p class="prize-info-2"><img class="prize-info" src="../static/img/prizes/2_trophy.png" style="height:1.2em;"> $12,000</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mx-auto justify-content-center">
+            <div class="col-sm-6 m-2">
+                <img class="img-fluid" src="../static/img/prizes/3rd_pos.png">
+                <div class="prizes">
+                    <p class="prize-info-2"><img class="prize-info" src="../static/img/prizes/3_trophy.png" style="height:1.2em;"> $500</p>
+                </div>
+            </div>
+        </div>
+        <div class="row prize_description_box alert-primary m-2">
+            <div class="col mx-auto align-middle text-center border rounded">
+                <h4 class="prize_description">The prizes above will be donated to a charity in the winning districts.</h4>
+            </div>
+        </div>
+    </div>
+</section>
+<script>
+    function reveal() {
+      var reveals = document.querySelectorAll(".reveal");
+      for (var i = 0; i < reveals.length; i++) {
+        var windowHeight = window.innerHeight;
+        var elementTop = reveals[i].getBoundingClientRect().top;
+        var elementVisible = 150;
+        if (elementTop < windowHeight - elementVisible) {
+          reveals[i].classList.add("active");
+        } else {
+          reveals[i].classList.remove("active");
+        }
+      }
+    }
+    window.addEventListener("load", reveal);
+
+    const Confettiful = function (el) {
+      this.el = el;
+      this.containerEl = null;
+
+      this.confettiFrequency = 6;
+      this.confettiColors = ["#fce18a", "#ff726d", "#b48def", "#f4306d"];
+      this.confettiAnimations = ["slow", "medium", "fast"];
+
+      this._setupElements();
+      this._renderConfetti();
+    };
+
+    Confettiful.prototype._setupElements = function () {
+      const containerEl = document.createElement("div");
+      const elPosition = this.el.style.position;
+
+      if (elPosition !== "relative" || elPosition !== "absolute") {
+        this.el.style.position = "relative";
+      }
+
+      containerEl.classList.add("confetti-container");
+
+      this.el.appendChild(containerEl);
+
+      this.containerEl = containerEl;
+    };
+
+    Confettiful.prototype._renderConfetti = function () {
+      this.confettiInterval = setInterval(() => {
+        const confettiEl = document.createElement("div");
+        const confettiSize = Math.floor(Math.random() * 3) + 8 + "px";
+        const confettiBackground = this.confettiColors[
+          Math.floor(Math.random() * this.confettiColors.length)
+        ];
+        const confettiLeft = Math.floor(Math.random() * this.el.offsetWidth) + "px";
+        const confettiAnimation = this.confettiAnimations[
+          Math.floor(Math.random() * this.confettiAnimations.length)
+        ];
+
+        confettiEl.classList.add(
+          "confetti",
+          "confetti--animation-" + confettiAnimation
+        );
+        confettiEl.style.left = confettiLeft;
+        confettiEl.style.width = confettiSize;
+        confettiEl.style.height = confettiSize;
+        confettiEl.style.backgroundColor = confettiBackground;
+
+        confettiEl.removeTimeout = setTimeout(function () {
+          confettiEl.parentNode.removeChild(confettiEl);
+        }, 3000);
+
+        this.containerEl.appendChild(confettiEl);
+      }, 25);
+    };
+
+    window.confettiful = new Confettiful(document.querySelector(".js-container"));
+
+    function clear_confetti_div(){
+        const confetti_div = Array.from(document.getElementsByClassName('confetti-container'))
+
+        confetti_div.forEach(cdiv => {
+          cdiv.remove();
+        });
+    }
+
+    function start_timer(){
+        clearInterval(confettiful.confettiInterval);
+        setTimeout(clear_confetti_div,3000);
+    }
+    setTimeout(start_timer, 3000);
+
+    function change_robot(){
+        document.getElementById("happy_robot").src="../static/img/prizes/happy_robot.gif";;
+    }
+
+    function tap_robot(){
+        document.getElementById("happy_robot").src="../static/img/prizes/booped_robot.png";
+        window.confettiful = new Confettiful(document.querySelector(".js-container"));
+        setTimeout(start_timer, 3000);
+        setTimeout(change_robot,200);
+    }
+
+    document.getElementById("happy_robot").addEventListener("click", tap_robot);
+
+
+</script>
+<!-- Prizes Section End -->
+
+{% endblock %}
