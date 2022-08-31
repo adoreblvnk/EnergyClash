@@ -6,14 +6,13 @@
     <div class="row d-flex justify-content-center">
       <div class="col-lg-8">
         <h3>LOGIN</h3>
-        <form action="#">
-          <div class="input-list">
-            <input type="text" placeholder="Name" />
+        <form method="POST">
+          <div class="input-list form-group">
+            <input type="text" placeholder="Name" name="name" value="{{ request.form['name'] }}" required/>
           </div>
-          <div class="input-list">
-            <input type="text" placeholder="Password" />
+          <div class="input-list form-group">
+            <input type="text" placeholder="Password" name="password" value="{{ request.form['password'] }}" required/>
           </div>
-          <textarea placeholder="Question"></textarea>
           <button type="submit" class="site-btn">Submit</button>
         </form>
       </div>
