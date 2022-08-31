@@ -4,10 +4,11 @@ from functools import wraps
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 
 import config
-from utils import Login
+from utils import OCR, Login
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+app.config['UPLOAD_PATH'] = 'temp'
 
 
 # checks if user is logged in.
@@ -93,8 +94,12 @@ def prizes():
 
 @app.route("/upload_bill", methods=("GET", "POST"))
 def upload_bill():
+    print("hi1")
     if request.method == "POST":
-        pass
+        power_bill = request.files["power_bill"]
+        print(power_bill.filename)
+        print(power_bill.mimetype)
+        OCR.extract_text(power_bill)
     return render_template("upload_bill.html")
 
 

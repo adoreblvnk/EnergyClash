@@ -15,7 +15,7 @@ class Login:
         conn.commit()
         conn.close()
 
-    def get_users(self) -> List[tuple]:
+    def get_users_login(self) -> List[tuple]:
         conn = sql.connect(config.DB_PATH)
         cur = conn.cursor()
         cur.execute("SELECT user, password FROM login")
@@ -24,19 +24,24 @@ class Login:
         return users
 
     def validate(self, name: str, password: str) -> bool:
-        user_list = self.get_users()
-        for user in user_list:
-            if user[0] == name and user[1] == password:
-                return True
-        return False
+        return (name, password) in self.get_users_login()
+
+class OCR:
+    def extract_text(img_path):
+        img = cv2.imread(img_path)
+        img = cv2.cvtColor(img, 0, 255)
+        text = pytesseract.image_to_string(img, config="--psm 11")
+        text_slice = " ".join([text]).split()
+        print(text_slice)
 
 
 if __name__ == "__main__":
-    print(pytesseract.pytesseract.tesseract_cmd)
-    img_path = "demo/power_supply_bill.png"
+    # print(pytesseract.pytesseract.tesseract_cmd)
+    # img_path = "demo/power_supply_bill.png"
 
-    img = cv2.imread(img_path)
-    img = cv2.cvtColor(img, 0, 255)
-    text = pytesseract.image_to_string(img, config="--psm 11")
-    text_slice = " ".join([text]).split()
-    print(text_slice)
+    # img = cv2.imread(img_path)
+    # img = cv2.cvtColor(img, 0, 255)
+    # text = pytesseract.image_to_string(img, config="--psm 11")
+    # text_slice = " ".join([text]).split()
+    # print(text_slice)
+    pass
