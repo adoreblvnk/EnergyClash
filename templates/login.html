@@ -1,0 +1,38 @@
+{% extends "layout.html" %} {% block body %}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-section">
+  <div class="container">
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="breadcrumb__option">
+                  <a href="{{ url_for('index') }}"><span class="fa fa-home"></span> Home</a>
+                  <span>Login</span>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- login form -->
+<div class="contact-form spad">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-8">
+        <h3>LOGIN</h3>
+        <form method="POST">
+          <div class="input-list form-group">
+            <input type="text" placeholder="Name" name="name" value="{{ request.form['name'] }}" required/>
+          </div>
+          <div class="input-list form-group">
+            <input type="text" placeholder="Password" name="password" value="{{ request.form['password'] }}" required minlength="8"/>
+          </div>
+          <button type="submit" class="site-btn">Submit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

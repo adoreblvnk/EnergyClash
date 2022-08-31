@@ -13,10 +13,8 @@ To run:
 
 Docker steps:
 
-    docker build -t energyclash:<tag> .
-    docker run -d -p 5000:5000 energyclash:<tag>
-
-- where `tag` is the version, eg `1.0`.
+    docker build -t energyclash .
+    docker run -d -p 5000:5000 energyclash
 
 Docker debugging:
 
