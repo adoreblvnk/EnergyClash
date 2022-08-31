@@ -2,6 +2,12 @@
 __pycache__/
 **/__pycache__/
 
+# pycharm
+.idea/
+
+# vscode
+.vscode/
+
 # venv
 venv/
 
