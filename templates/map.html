@@ -1,0 +1,255 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__option">
+                    <a href="./index.html"><span class="fa fa-home"></span> Home</a>
+                    <span>Leaderboard</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<!-- Styling for map -->
+<style>
+#map { height:60%; margin:30px;
+}
+.mapPopup {
+font-weight:bold;
+}
+
+.countdown_container {
+  color: #333;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.countdown_container li {
+  display: inline-block;
+  font-size: 1.2em;
+  list-style-type: none;
+  padding: 1em;
+  text-transform: uppercase;
+}
+
+.countdown li span  {
+  display: block;
+  font-size: 4.2rem;
+}
+
+
+
+</style>
+<!-- Map Styling End -->
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 col-md-12">
+                <br>
+                <div class="section-title normal-title">
+                    <h3>Competiton Map</h3>
+
+                </div>
+
+
+            </div>
+        </div></div>
+
+        <div id="map"></div>
+<div class="countdown_container">
+  <h3 id="headline">Season ends in</h3>
+  <div id="countdown" >
+    <ul class="countdown">
+      <li class="countdown"><span id="days" class="countdown"></span>days</li>
+      <li class="countdown"><span id="hours" class="countdown"></span>Hours</li>
+      <li class="countdown"><span id="minutes" class="countdown"></span>Minutes</li>
+      <li class="countdown"><span id="seconds" class="countdown"></span>Seconds</li>
+    </ul>
+  </div>
+</div>
+<script>
+(function () {
+  const second = 1000,
+        minute = second * 60,
+        hour = minute * 60,
+        day = hour * 24;
+
+  let today = new Date(),
+      dd = String(today.getDate()).padStart(2, "0"),
+      mm = String(today.getMonth() + 1).padStart(2, "0"),
+      yyyy = today.getFullYear(),
+      nextYear = yyyy + 1,
+      dayMonth = "01/06/",
+      birthday = dayMonth + '2023';
+      console.log(birthday);
+
+  today = mm + "/" + dd + "/" + yyyy;
+  if (today > birthday) {
+    birthday = dayMonth + nextYear;
+  }
+  //end
+
+  const countDown = new Date(birthday).getTime(),
+      x = setInterval(function() {
+
+        const now = new Date().getTime(),
+              distance = countDown - now;
+
+        document.getElementById("days").innerText = Math.floor(distance / (day)),
+          document.getElementById("hours").innerText = Math.floor((distance % (day)) / (hour)),
+          document.getElementById("minutes").innerText = Math.floor((distance % (hour)) / (minute)),
+          document.getElementById("seconds").innerText = Math.floor((distance % (minute)) / second);
+
+        //do something later when date is reached
+        if (distance < 0) {
+          document.getElementById("headline").innerText = "It's my birthday!";
+          document.getElementById("countdown").style.display = "none";
+          document.getElementById("content").style.display = "block";
+          clearInterval(x);
+        }
+        //seconds
+      }, 0)
+  }());
+</script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+   integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+   crossorigin=""/>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+ <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+   integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+   crossorigin=""></script>
+
+ <script type="text/javascript" src="../static/sg_town_edited.js"></script>
+
+ <script type="text/javascript">
+   var map = L.map('map').setView([1.4,103.8], 12);
+
+L.tileLayer('https://cartodb-basemaps-a.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+function getColor(d) {
+    return d > 10000 ? '#5004ba' :
+           d > 9000  ? '#7c2ee8' :
+           d > 8000  ? '#823de3' :
+           d > 7000  ? '#995ced' :
+           d > 6000   ? '#9a67e0' :
+           d > 5000   ? '#9971d1' :
+           d > 4000   ? '#ab87de' :
+           d > 3000   ? '#a588cf' :
+           d > 2000   ? '#b8a0db' :
+           d > 1000   ? '#c4afe3' :
+           d > 500   ? '#d7cce8' :
+           d = 0   ? '#FFFFFF' :
+                      '#FFFFFF'; //default for no value is white
+}
+function getViews(d) {
+  var dict = { {{MapJsVars |safe}} };
+      cviews = dict[d];
+  if (cviews != undefined) {
+
+  return dict[d];
+
+} else {
+  return 0;
+}
+
+
+}
+function style(feature) {
+  console.log(feature["properties"]["Name"]);
+		return {
+			weight: 2,
+			opacity: 1,
+			color: 'white',
+			fillOpacity: 0.8,
+			fillColor: getColor(getViews(feature["properties"]["Name"]))
+		};
+	}
+
+	function highlightFeature(e) {
+		var layer = e.target;
+
+		layer.setStyle({
+			weight: 5,
+			color: 'black',
+			dashArray: '',
+			fillOpacity: 0.5,
+		});
+
+		if (!L.Browser.ie && !L.Browser.opera && !L.Browser.edge) {
+			layer.bringToFront();
+		}
+
+	}
+
+	var geojson;
+
+	function resetHighlight(e) {
+		geojson.resetStyle(e.target);
+	}
+function toTitleCase(str) {
+  return str.replace(
+    /\w\S*/g,
+    function(txt) {
+      return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    }
+  );
+}
+
+	function onEachFeature(feature, layer) {
+	 var popuptext = "<h4>" + toTitleCase(feature["properties"]["Name"]) +"</h4><p>" + getViews(feature["properties"]["Name"])+" kW/h saved</p>"
+		layer.on({
+			mouseover: highlightFeature,
+			mouseout: resetHighlight,
+		}).bindPopup(popuptext);
+
+	}
+
+
+	geojson = L.geoJson(countriesData, {
+		style: style,
+		onEachFeature: onEachFeature
+	}).addTo(map);
+
+	map.attributionControl.addAttribution('&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap contributors</a>');
+
+    var LeafIcon = L.Icon.extend({
+    options: {
+       iconSize:     [30, 30],
+    }
+});
+
+
+var coords = {
+"YISHUN":[1.42, 103.8379],
+"SEMBAWANG": [1.45, 103.8249],
+"ANG MO KIO":[1.38, 103.8455],
+
+
+}
+var goldIcon = new LeafIcon({
+    iconUrl: '../static/img/gold_circle.png',
+})
+L.marker(coords["{{winners[0]}}"], {icon: goldIcon}).addTo(map).bindPopup("<p class='mapPopup'>First place</p>");
+
+var silverIcon = new LeafIcon({
+    iconUrl: '../static/img/silver_circle.png',
+})
+L.marker(coords["{{winners[1]}}"], {icon: silverIcon}).addTo(map).bindPopup("<p class='mapPopup'>Second place</p>");
+
+
+var bronzeIcon = new LeafIcon({
+    iconUrl: '../static/img/bronze_circle.png',
+})
+L.marker(coords["{{winners[2]}}"], {icon: bronzeIcon}).addTo(map).bindPopup("<p class='mapPopup'>Third place</p>");
+
+</script>
+
+{% endblock %}

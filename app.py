@@ -9,7 +9,6 @@ from utils import Login
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
-
 # checks if user is logged in.
 def logged_in(f):
     @wraps(f)
@@ -20,7 +19,6 @@ def logged_in(f):
             flash("Login to view this page", "warning")
             return redirect(url_for("login"))
     return wrap
-
 
 @app.route("/")
 def index():
@@ -86,6 +84,8 @@ def register():
 @app.route("/prizes")
 def prizes():
     return render_template("prizes.html")
+
+from Mark_Features import *
 
 
 @app.errorhandler(404)
