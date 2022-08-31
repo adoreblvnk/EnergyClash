@@ -8,6 +8,9 @@ from utils import Login
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
+
+
+
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -37,6 +40,8 @@ def contact():
     return render_template("contact.html")
 
 # add routes here
+from Mark_Features import *
+
 
 @app.errorhandler(404)
 def page_not_found(e):
