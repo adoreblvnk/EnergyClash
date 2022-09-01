@@ -25,8 +25,12 @@
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__auth">
         <ul>
+            {% if session['logged_in'] %}
+            <li style="color:white"><span class="fa fa-user" style="color:white" ></span> Welcome, {{ session['name'] }}</li>
+            {% else %}
             <li><span class="fa fa-user" style="color:white" ></span> <a href="{{ url_for('login') }}" style="display: inline-block">Login</a></li>
             <li><span class="fa fa-address-card" style="color:white" ></span> <a href="{{ url_for('register') }}" style="display: inline-block">Register</a></li>
+            {% endif %}
         </ul>
     </div>
     <div class="offcanvas__info">
@@ -54,9 +58,12 @@
               <div class="col-lg-6 col-md-6">
                   <div class="header__info-right">
                       <ul>
+                          {% if session['logged_in'] %}
+                          <li style="color:white"><span class="fa fa-user" style="color:white" ></span> Welcome, {{ session['name'] }}</li>
+                          {% else %}
                           <li><span class="fa fa-user" style="color:white" ></span> <a href="{{ url_for('login') }}" style="display: inline-block">Login</a></li>
                           <li><span class="fa fa-address-card" style="color:white" ></span> <a href="{{ url_for('register') }}" style="display: inline-block">Register</a></li>
-
+                          {% endif %}
                       </ul>
                   </div>
               </div>
