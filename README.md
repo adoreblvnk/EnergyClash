@@ -18,7 +18,7 @@ Docker steps:
 
 Docker debugging:
 
-    docker run -p 5000:5000 -it energyclash:<tag> bash
+    docker run -p 5000:5000 -it energyclash bash
     
 To run SQLite3 command on Windows:
 1. Download sqlite-tools-win32-x86-3390200.zip from (https://www.sqlite.org/download.html). 1.88 MiB.

@@ -88,8 +88,6 @@ def register():
 def prizes():
     return render_template("prizes.html")
 
-from Mark_Features import *
-
 
 @app.route("/upload_bill", methods=("GET", "POST"))
 def upload_bill():
@@ -124,6 +122,9 @@ def power_consumption():
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template("404.html"), 404
+
+
+from Mark_Features import *
 
 
 if __name__ == "__main__":
