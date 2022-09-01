@@ -1,6 +1,6 @@
 import os
 from functools import wraps
-
+import hashlib
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 
 import config
@@ -9,6 +9,8 @@ from utils import OCR, Database
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.config['UPLOAD_PATH'] = config.UPLOAD_PATH
+ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
+
 
 # checks if user is logged in.
 def logged_in(f):
@@ -57,6 +59,7 @@ def login():
     if request.method == "POST":
         name = request.form["name"]
         password = request.form["password"]
+        password = hashlib.md5(bytes(password,'utf-8')).hexdigest()
         if Database().validate(name, password):
             session["logged_in"] = True
             session["name"] = name
@@ -70,7 +73,10 @@ def login():
 def register():
     if request.method == "POST":
         name = request.form["name"]
+        if name.lower() not in ALLOWED_EMAILS:
+            return redirect('/')
         password = request.form["password"]
+        password=hashlib.md5(bytes(password,'utf-8')).hexdigest()
         district = request.form["district"]
         try:
             Database().insert_user(name, password, district)
