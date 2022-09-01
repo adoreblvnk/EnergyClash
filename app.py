@@ -29,6 +29,7 @@ def logged_in(f):
 
 @app.route("/")
 def index():
+    session.pop("kwh", None)
     return render_template("index.html")
 
 
@@ -60,6 +61,7 @@ def contact():
 # add routes here
 @app.route("/login", methods=("GET", "POST"))
 def login():
+    session.pop("kwh", None)
     if request.method == "POST":
         name = request.form["name"]
         password = request.form["password"]
@@ -75,6 +77,7 @@ def login():
 
 @app.route("/register", methods=("GET", "POST"))
 def register():
+    session.pop("kwh", None)
     if request.method == "POST":
         name = request.form["name"]
         if name.lower() not in ALLOWED_EMAILS:
@@ -118,6 +121,7 @@ def upload_bill():
                 "img_output_path": img_output_path
             }
             return render_template("upload_bill.html", data=data)
+        flash("Cannot extract electricity consumption", "warning")
     return render_template("upload_bill.html")
 
 
