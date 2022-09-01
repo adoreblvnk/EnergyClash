@@ -160,50 +160,36 @@ def product(product):
             else:
                 dets.append(i)
         items.append(dets)
+    # print(product_details)
+    water_string = ''
 
-    labels_tmp = []
-    values_tmp = []
-    for item in items:
-        for divs in item:
-            labels_tmp.append(divs.find_all('div', {'class':'label'}))
-            values_tmp.append(divs.find_all('div', {'class':'value'}))
-    labels = []
-    values = []
-    for i in labels_tmp:
-        if i:
-            tmp = []
-            for a in i:
-                res = re.findall(r'>(.*?)<',str(a))[0]
-                tmp.append(res)
-            labels.append(tmp)
+    if product == 'computer_monitors':
+        energy_string = 'Total Energy Consumption'
+    elif product == 'dehumidifiers':
+        energy_string = 'Dehumidifier Efficiency (Integrated Energy Factor - L/kWh)'
+    else:
+        energy_string = 'Annual Energy Use (kWh/yr)'
+    print(energy_string)
+    energy_values = []
+    tmp = r.text.split('\n')
+    for i in range(len(tmp)):
+        if energy_string in tmp[i]:
+            try:
+                if product == 'acs':
+                    value = re.findall(r'\d+[.\d+]*', tmp[i + 2])[0]
+                else:
+                    value = re.findall(r'\d+[.\d+]*',tmp[i+1])[0]
+                energy_values.append(value)
+            except:
+                continue
+    energy_values = energy_values[:5]
+    print(energy_values)
 
-    for i in values_tmp:
-        if i:
-            tmp = []
-            for a in i:
-                res = a.string
-                print(res)
-                # res = re.findall(r'>(.*?)<',str(a))[0]
-                tmp.append(res)
-            values.append(tmp)
-    labels = list(itertools.chain.from_iterable(labels))
-    values = list(itertools.chain.from_iterable(values))
-    print(labels)
-    print(values)
-
-    # print([label.string for label in labels])
-    # print([value.string for value in values])
-
-    # details_label = [i.find_all("div", {"class":"label"}) for i in product_details]
-    # details_value = [i.find_all("div", {"class":"value"}) for i in product_details]
-    # print(details_label)
-    # detail_value = [i.string for i in details_value]
-    # print(detail_value)
     product_names = [re.findall(r'[a-zA-Z0-9].+[a-zA-Z0-9]',i.a.string) for i in product_elements][:5]
     energy_star_url = "https://www.energystar.gov"
     product_urls = [energy_star_url + endpoint for endpoint in re.findall(r"/productfinder/.+\d+", str(product_elements))[:5]]
     # product_ids = re.findall(r"\d+", str(results))
-    return render_template("product_list.html", product=prod, product_names=product_names, product_urls=product_urls)
+    return render_template("product_list.html", label_name=energy_string,energy_values=energy_values,product=prod, product_names=product_names, product_urls=product_urls)
 
 
 @app.errorhandler(404)
