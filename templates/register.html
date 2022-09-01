@@ -26,10 +26,13 @@
             <input type="text" placeholder="Name" name="name" value="{{ request.form['name'] }}" required/>
           </div>
           <div class="input-list form-group">
-            <input type="text" placeholder="Password" name="password" value="{{ request.form['password'] }}" required minlength="8" onchange="pwConfirm()"/>
+            <input type="password" placeholder="Password" name="password" value="{{ request.form['password'] }}" required minlength="8" onchange="pwConfirm()"/>
           </div>
           <div class="input-list form-group">
-            <input type="text" placeholder="Confirm Password" name="confirm" value="{{ request.form['confirm'] }}" required minlength="8" onchange="pwConfirm()"/>
+            <input type="password" placeholder="Confirm Password" name="confirm" value="{{ request.form['confirm'] }}" required minlength="8" onchange="pwConfirm()"/>
+          </div>
+          <div class="input-list form-group">
+            <input type="text" placeholder="District" name="district" value="{{ request.form['district'] }}" required/>
           </div>
           <button type="submit" class="site-btn">Submit</button>
         </form>
