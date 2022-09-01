@@ -11,6 +11,9 @@ app.secret_key = os.urandom(24)
 app.config['UPLOAD_PATH'] = config.UPLOAD_PATH
 ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
 
+if config.ENV == "live":
+    os.system("sqlite3 database/energyclash.db < database/energyclash.sql")
+
 
 # checks if user is logged in.
 def logged_in(f):
