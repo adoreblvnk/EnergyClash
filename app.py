@@ -1,8 +1,11 @@
-import os
+import os, requests, re, itertools
 from functools import wraps
 import hashlib
 from flask import Flask, flash, redirect, render_template, request, session, url_for
+
+from bs4 import BeautifulSoup
 import sqlite3 as sql
+
 import config
 from utils import OCR, Database
 
@@ -49,9 +52,9 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+@app.route("/product_rec")
+def product_rec():
+    return render_template("product_rec.html")
 
 
 @app.route("/hosting")
@@ -154,6 +157,72 @@ def power_consumption():
     flash("Check out <a href='/product_rec'>RECOMMENDED PRODUCTS</a> for great energy-saving appliances that reduce energy usage! ", "warning")
     return render_template("power_consumption.html", power_dict=POWER_DICT)
 
+@app.route("/product_rec/<product>")
+def product(product):
+    products = {
+        "refrigerators": "refrigerators",
+        "computer_monitors": "computer-monitors",
+        "washing_machines": "clothes-washers",
+        "dehumidifiers": "dehumidifiers",
+        "acs": "room-ac"
+    }
+    if product not in products.keys():
+        return render_template("404.html"), 404
+    prod = products[product]
+    product_url = f"https://www.energystar.gov/most-efficient/me-certified-{prod}/results?is_most_efficient_filter=Most+Efficient"
+    r = requests.get(product_url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    product_elements = soup.find_all("div", {"class": "title"})
+    # product_details = re.findall(r'<div class=\"label\">(.|\n)+<div class=\"value\">.+>',r.text)
+    # with open('blob.txt', 'w', errors='ignore') as f: f.write(r.text)
+
+    product_details = []
+    for item in soup.find_all('div', class_="field"):
+        if item.a is None:
+            product_details.append(item.parent.parent)
+    product_details = product_details[:5]
+
+    items = []
+    for item in product_details:
+        buf = item.findChildren("div", recursive=False)[1:]
+        dets = []
+        for i in buf:
+            if "CLICK FOR PRODUCT DETAILS" in str(i):
+                break
+            else:
+                dets.append(i)
+        items.append(dets)
+    # print(product_details)
+    water_string = ''
+
+    if product == 'computer_monitors':
+        energy_string = 'Total Energy Consumption'
+    elif product == 'dehumidifiers':
+        energy_string = 'Dehumidifier Efficiency (Integrated Energy Factor - L/kWh)'
+    else:
+        energy_string = 'Annual Energy Use (kWh/yr)'
+    print(energy_string)
+    energy_values = []
+    tmp = r.text.split('\n')
+    for i in range(len(tmp)):
+        if energy_string in tmp[i]:
+            try:
+                if product == 'acs':
+                    value = re.findall(r'\d+[.\d+]*', tmp[i + 2])[0]
+                else:
+                    value = re.findall(r'\d+[.\d+]*',tmp[i+1])[0]
+                energy_values.append(value)
+            except:
+                continue
+    energy_values = energy_values[:5]
+    print(energy_values)
+
+    product_names = [re.findall(r'[a-zA-Z0-9].+[a-zA-Z0-9]',i.a.string) for i in product_elements][:5]
+    energy_star_url = "https://www.energystar.gov"
+    product_urls = [energy_star_url + endpoint for endpoint in re.findall(r"/productfinder/.+\d+", str(product_elements))[:5]]
+    # product_ids = re.findall(r"\d+", str(results))
+    return render_template("product_list.html", label_name=energy_string,energy_values=energy_values,product=prod, product_names=product_names, product_urls=product_urls)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -164,5 +233,7 @@ from Mark_Features import *
 
 
 if __name__ == "__main__":
+
     port = int(os.environ.get('PORT', 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
