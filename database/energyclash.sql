@@ -9,9 +9,8 @@ CREATE TABLE login(
 
 INSERT INTO login (user, password, district)
 VALUES
-    ("user@gmail.com", "password123", "YISHUN"),
-    ("mark@gmail.com","P@ssw0rd","ANG MO KIO"),
-    ("youseff@gmail.com", "str0ngPass", "BEDOK");
+    ("user@gmail.com", "482c811da5d5b4bc6d497ffa98491e38", "YISHUN"),
+    ("youseff@gmail.com", "f357fb49d11d369f4f26f01de27a2658", "BEDOK");
 
 CREATE TABLE mapdata(
     season TEXT PRIMARY KEY,
