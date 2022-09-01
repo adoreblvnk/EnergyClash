@@ -11,6 +11,11 @@ app.secret_key = os.urandom(24)
 app.config['UPLOAD_PATH'] = config.UPLOAD_PATH
 ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
 
+if config.ENV == "live":
+    os.system("sqlite3 database/energyclash.db < database/energyclash.sql")
+
+
+
 # checks if user is logged in.
 def logged_in(f):
     @wraps(f)
@@ -143,4 +148,5 @@ from Mark_Features import *
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+    port = int(os.environ.get('PORT', 5000))
+    app.run(port=port, debug=True)
