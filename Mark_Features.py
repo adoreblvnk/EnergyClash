@@ -28,3 +28,11 @@ def map():
 
 
 
+@app.route("/api_upload_markisawesome", methods=("GET", "POST"))
+@logged_in
+def api_upload():
+    if request.method == "GET":
+        session["kwh"] = 431
+    MAP_DICT[session["district"]]+=431
+    flash(f'Debug 431 kW/H for {session["district"]}', "warning")
+    return render_template("index.html")
