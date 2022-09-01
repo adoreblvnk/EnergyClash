@@ -69,12 +69,13 @@ def login():
         if Database().validate(name, password):
             session["logged_in"] = True
             session["name"] = name
+            session["district"] = config.user_district
             flash("Successfully logged into EnergyClash", "success")
             return redirect("/")
         flash("Incorrect login credentials", "danger")
     return render_template("login.html")
 
-
+ACTIVE_DISTRICT = ''
 @app.route("/register", methods=("GET", "POST"))
 def register():
     session.pop("kwh", None)
@@ -89,6 +90,7 @@ def register():
             Database().insert_user(name, password, district)
             session["logged_in"] = True
             session["name"] = name
+            session["district"] = session["district"]
             flash("Thank you for signing up for EnergyClash", "success")
             return redirect("/")
         except Exception as e:
@@ -122,7 +124,10 @@ def upload_bill():
             }
             return render_template("upload_bill.html", data=data)
         flash("Cannot extract electricity consumption", "warning")
+    MAP_DICT[session["district"]]+=kwh
     return render_template("upload_bill.html")
+
+
 
 
 
