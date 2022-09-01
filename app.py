@@ -2,7 +2,9 @@ import os, requests, re, itertools
 from functools import wraps
 import hashlib
 from flask import Flask, flash, redirect, render_template, request, session, url_for
+
 from bs4 import BeautifulSoup
+import sqlite3 as sql
 
 import config
 from utils import OCR, Database
@@ -11,6 +13,26 @@ app = Flask(__name__)
 app.secret_key = os.urandom(24)
 app.config['UPLOAD_PATH'] = config.UPLOAD_PATH
 ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
+
+if config.ENV == "live":
+    os.system("sqlite3 database/energyclash.db < database/energyclash.sql")
+
+conn = sql.connect(config.DB_PATH)
+cur = conn.cursor()
+cur.execute("SELECT season, data FROM mapdata")
+MAPDATARAW = cur.fetchall()
+conn.close()
+
+MAP_DICT = eval(MAPDATARAW[0][1])
+
+
+conn = sql.connect(config.DB_PATH)
+cur = conn.cursor()
+cur.execute("SELECT season, data FROM powerdata")
+pdr = cur.fetchall()
+conn.close()
+
+POWER_DICT = eval(pdr[0][1])
 
 
 # checks if user is logged in.
@@ -26,6 +48,7 @@ def logged_in(f):
 
 @app.route("/")
 def index():
+    session.pop("kwh", None)
     return render_template("index.html")
 
 
@@ -57,6 +80,7 @@ def contact():
 # add routes here
 @app.route("/login", methods=("GET", "POST"))
 def login():
+    session.pop("kwh", None)
     if request.method == "POST":
         name = request.form["name"]
         password = request.form["password"]
@@ -64,14 +88,16 @@ def login():
         if Database().validate(name, password):
             session["logged_in"] = True
             session["name"] = name
+            session["district"] = config.user_district
             flash("Successfully logged into EnergyClash", "success")
             return redirect("/")
         flash("Incorrect login credentials", "danger")
     return render_template("login.html")
 
-
+ACTIVE_DISTRICT = ''
 @app.route("/register", methods=("GET", "POST"))
 def register():
+    session.pop("kwh", None)
     if request.method == "POST":
         name = request.form["name"]
         if name.lower() not in ALLOWED_EMAILS:
@@ -83,6 +109,7 @@ def register():
             Database().insert_user(name, password, district)
             session["logged_in"] = True
             session["name"] = name
+            session["district"] = session["district"]
             flash("Thank you for signing up for EnergyClash", "success")
             return redirect("/")
         except Exception as e:
@@ -93,10 +120,12 @@ def register():
 
 @app.route("/prizes")
 def prizes():
+    flash("Check out the <a href='/map'>GAMEMAP</a> to see how close your district is! ", "warning")
     return render_template("prizes.html")
 
 
 @app.route("/upload_bill", methods=("GET", "POST"))
+@logged_in
 def upload_bill():
     if request.method == "POST":
         power_bill = request.files["power_bill"]
@@ -113,17 +142,20 @@ def upload_bill():
                 "kwh": kwh,
                 "img_output_path": img_output_path
             }
+            MAP_DICT[session["district"]]+=round(POWER_DICT['July'] - float(kwh),2)
             return render_template("upload_bill.html", data=data)
-
+        flash("Cannot extract electricity consumption", "warning")
     return render_template("upload_bill.html")
 
 
 @app.route("/power_consumption")
+@logged_in
 def power_consumption():
     if session.get("kwh"):
         data = {"kwh": session["kwh"]}
-        return render_template("power_consumption.html", data=data)
-    return render_template("power_consumption.html")
+        return render_template("power_consumption.html", data=data, power_dict=POWER_DICT)
+    flash("Check out <a href='/product_rec'>RECOMMENDED PRODUCTS</a> for great energy-saving appliances that reduce energy usage! ", "warning")
+    return render_template("power_consumption.html", power_dict=POWER_DICT)
 
 @app.route("/product_rec/<product>")
 def product(product):
@@ -201,4 +233,7 @@ from Mark_Features import *
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=8880, debug=True)
+
+    port = int(os.environ.get('PORT', 5000))
+    app.run(host="0.0.0.0", port=port, debug=True)
+

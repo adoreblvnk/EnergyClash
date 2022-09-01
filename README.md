@@ -14,11 +14,11 @@ To run:
 Docker steps:
 
     docker build -t energyclash .
-    docker run -d -p 80:80 energyclash
+    docker run -d -p 5000:5000 energyclash
 
 Docker debugging:
 
-    docker run -p 80:80 -it energyclash bash
+    docker run -p 5000:5000 -it energyclash bash
     
 To run SQLite3 command on Windows:
 1. Download sqlite-tools-win32-x86-3390200.zip from (https://www.sqlite.org/download.html). 1.88 MiB.
@@ -27,4 +27,4 @@ To run SQLite3 command on Windows:
 
     `..\sqlite-tools-win32-x86-3390200\sqlite3.exe database/energyclash.db < database/energyclash.sql`
 
-Local URL: http://localhost
+Local URL: http://localhost:5000

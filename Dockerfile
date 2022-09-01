@@ -23,6 +23,4 @@ COPY . .
 # initialise database
 RUN sqlite3 database/energyclash.db < database/energyclash.sql
 
-EXPOSE 80
-
 CMD ["python3", "app.py"]
