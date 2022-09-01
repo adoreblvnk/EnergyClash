@@ -134,4 +134,5 @@ from Mark_Features import *
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=33507, debug=True)
+    port = int(os.environ.get('PORT', 33507))
+    app.run(host="0.0.0.0", port=port, debug=True)
