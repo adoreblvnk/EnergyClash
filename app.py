@@ -11,7 +11,6 @@ app.secret_key = os.urandom(24)
 app.config['UPLOAD_PATH'] = config.UPLOAD_PATH
 ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
 
-
 # checks if user is logged in.
 def logged_in(f):
     @wraps(f)
