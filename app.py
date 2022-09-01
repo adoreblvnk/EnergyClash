@@ -100,6 +100,7 @@ def prizes():
 
 
 @app.route("/upload_bill", methods=("GET", "POST"))
+@logged_in
 def upload_bill():
     if request.method == "POST":
         power_bill = request.files["power_bill"]
@@ -117,7 +118,6 @@ def upload_bill():
                 "img_output_path": img_output_path
             }
             return render_template("upload_bill.html", data=data)
-
     return render_template("upload_bill.html")
 
 
@@ -132,6 +132,7 @@ POWER_DICT = eval(pdr[0][1])
 
 
 @app.route("/power_consumption")
+@logged_in
 def power_consumption():
     if session.get("kwh"):
         data = {"kwh": session["kwh"]}
