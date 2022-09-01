@@ -139,7 +139,7 @@ def upload_bill():
                 "kwh": kwh,
                 "img_output_path": img_output_path
             }
-            MAP_DICT[session["district"]]+=float(kwh)
+            MAP_DICT[session["district"]]+=round(POWER_DICT['July'] - float(kwh),2)
             return render_template("upload_bill.html", data=data)
         flash("Cannot extract electricity consumption", "warning")
     return render_template("upload_bill.html")
