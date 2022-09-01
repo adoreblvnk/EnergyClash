@@ -12,5 +12,8 @@ venv/
 # database
 *.db
 
+# output dir
+static/uploads/
+
 # others
 README.md

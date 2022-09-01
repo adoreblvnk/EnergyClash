@@ -4,11 +4,11 @@ from functools import wraps
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 
 import config
-from utils import OCR, Login
+from utils import OCR, Database
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-app.config['UPLOAD_PATH'] = 'temp'
+app.config['UPLOAD_PATH'] = config.UPLOAD_PATH
 
 
 # checks if user is logged in.
@@ -49,7 +49,6 @@ def blog_details():
 
 
 @app.route("/contact")
-@logged_in
 def contact():
     return render_template("contact.html")
 
@@ -60,7 +59,7 @@ def login():
     if request.method == "POST":
         name = request.form["name"]
         password = request.form["password"]
-        if Login().validate(name, password):
+        if Database().validate(name, password):
             session["logged_in"] = True
             session["name"] = name
             flash("Successfully logged into EnergyClash", "success")
@@ -76,7 +75,7 @@ def register():
         password = request.form["password"]
         district = request.form["district"]
         try:
-            Login().insert_user(name, password, district)
+            Database().insert_user(name, password, district)
             session["logged_in"] = True
             session["name"] = name
             flash("Thank you for signing up for EnergyClash", "success")
@@ -94,13 +93,32 @@ def prizes():
 
 @app.route("/upload_bill", methods=("GET", "POST"))
 def upload_bill():
-    print("hi1")
     if request.method == "POST":
         power_bill = request.files["power_bill"]
-        print(power_bill.filename)
-        print(power_bill.mimetype)
-        OCR.extract_text(power_bill)
+        os.makedirs(app.config["UPLOAD_PATH"], exist_ok=True)
+        power_bill_path = os.path.join(app.config["UPLOAD_PATH"], power_bill.filename)
+        power_bill.save(power_bill_path)
+        tesseract_data = OCR().tesseract_output(power_bill_path)
+        text_slice = OCR().extract_text(tesseract_data)
+        kwh = OCR().extract_power_consumption(text_slice)
+        session["kwh"] = kwh
+        img_output_path = OCR().draw_boxes(power_bill_path, tesseract_data)
+        if kwh and img_output_path:
+            data = {
+                "kwh": kwh,
+                "img_output_path": img_output_path
+            }
+            return render_template("upload_bill.html", data=data)
+
     return render_template("upload_bill.html")
+
+
+@app.route("/power_consumption")
+def power_consumption():
+    if session.get("kwh"):
+        data = {"kwh": session["kwh"]}
+        return render_template("power_consumption.html", data=data)
+    return render_template("power_consumption.html")
 
 
 @app.errorhandler(404)

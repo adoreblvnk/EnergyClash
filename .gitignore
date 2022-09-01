@@ -13,3 +13,6 @@ venv/
 
 # database
 *.db
+
+# output dir
+static/uploads/
