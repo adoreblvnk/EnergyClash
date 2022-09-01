@@ -3,14 +3,15 @@ DROP TABLE IF EXISTS mapdata;
 
 CREATE TABLE login(
     user TEXT PRIMARY KEY,
-    password TEXT NOT NULL
+    password TEXT NOT NULL,
+    district TEXT NOT NULL
 );
 
-INSERT INTO login (user, password)
+INSERT INTO login (user, password, district)
 VALUES
-    ("user", "password123"),
-    ("youseff", "str0ngPass");
-
+    ("user@gmail.com", "password123", "YISHUN"),
+    ("mark@gmail.com","P@ssw0rd","ANG MO KIO"),
+    ("youseff@gmail.com", "str0ngPass", "BEDOK");
 
 CREATE TABLE mapdata(
     season TEXT PRIMARY KEY,

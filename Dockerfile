@@ -15,6 +15,9 @@ RUN apt-get install -y tesseract-ocr
 # sqlite3
 RUN apt-get install -y sqlite3
 
+# library for opencv
+RUN apt-get install -y python3-opencv
+
 COPY . .
 
 # initialise database
