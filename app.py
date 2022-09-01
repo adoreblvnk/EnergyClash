@@ -2,7 +2,7 @@ import os
 from functools import wraps
 import hashlib
 from flask import Flask, flash, redirect, render_template, request, session, url_for
-
+import sqlite3 as sql
 import config
 from utils import OCR, Database
 
@@ -13,6 +13,7 @@ ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
 
 if config.ENV == "live":
     os.system("sqlite3 database/energyclash.db < database/energyclash.sql")
+
 
 
 # checks if user is logged in.
@@ -120,12 +121,22 @@ def upload_bill():
     return render_template("upload_bill.html")
 
 
+
+conn = sql.connect(config.DB_PATH)
+cur = conn.cursor()
+cur.execute("SELECT season, data FROM powerdata")
+pdr = cur.fetchall()
+conn.close()
+
+POWER_DICT = eval(pdr[0][1])
+
+
 @app.route("/power_consumption")
 def power_consumption():
     if session.get("kwh"):
         data = {"kwh": session["kwh"]}
-        return render_template("power_consumption.html", data=data)
-    return render_template("power_consumption.html")
+        return render_template("power_consumption.html", data=data, power_dict=POWER_DICT)
+    return render_template("power_consumption.html", power_dict=POWER_DICT)
 
 
 @app.errorhandler(404)

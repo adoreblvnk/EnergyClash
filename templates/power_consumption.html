@@ -17,6 +17,9 @@
 </div>
 <!-- Breadcrumb End -->
 
+<script>
+    var power_dict = {{power_dict | safe}};
+</script>
 <!-- power consumption Section Begin -->
 <section class="hosting-section spad">
     <div class="container">
@@ -77,28 +80,28 @@
                                         </tr>
                                         <tr>
                                             <td class="hosting__feature--item">April</td>
-                                            <td class="hosting__feature--check">524.4</td>
+                                            <td class="hosting__feature--check">{{power_dict['April']}}</td>
                                             <td class="hosting__feature--check">
                                                 <span class="fa fa-check-circle-o"></span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="hosting__feature--item">May</td>
-                                            <td class="hosting__feature--check">572.9</td>
+                                            <td class="hosting__feature--check">{{power_dict['May']}}</td>
                                             <td class="hosting__feature--check">
                                                 <span class="fa fa-check-circle-o"></span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="hosting__feature--item">June</td>
-                                            <td class="hosting__feature--check">490.8</td>
+                                            <td class="hosting__feature--check">{{power_dict['June']}}</td>
                                             <td class="hosting__feature--check">
                                                 <span class="fa fa-check-circle-o"></span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td class="hosting__feature--item">July</td>
-                                            <td class="hosting__feature--check">450.8</td>
+                                            <td class="hosting__feature--check">{{power_dict['July']}}</td>
                                             <td class="hosting__feature--check"><span
                                                     class="fa fa-check-circle-o"></span></td>
                                         </tr>
@@ -109,11 +112,13 @@
                                             <td class="hosting__feature--check">
                                                 <span class="fa fa-check-circle-o"></span>
                                             </td>
+                                            <script>power_dict['August']= {{ data['kwh'] }};</script>
                                             {% else %}
                                             <td class="hosting__feature--check"></td>
                                             <td class="hosting__feature--close">
                                                 <span class="fa fa-times-circle-o"></span>
                                             </td>
+                                            <script>power_dict['August']=0;</script>
                                             {% endif %}
                                         </tr>
                                         <tr>
@@ -139,6 +144,11 @@
                                     </tbody>
                                 </table>
                                 <br>
+
+
+<!--        Mark's chart.js bit -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <canvas id="myChart" style="animation: color-pulse 1s infinite;"></canvas>
                             </div>
                         </div>
                     </div>
@@ -146,7 +156,47 @@
             </div>
         </div>
     </div>
+    <div>
+
+</div>
+
+    <script>
+    const labels = ['April','May','June','July','August'];
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Power Consumption',
+    data: Object.values(power_dict),
+    backgroundColor: [
+      '#8e82d9',
+    ],
+    borderColor: [
+      'rgb(18, 8, 81)',
+    ],
+    borderWidth: 1
+  }]
+};
+
+
+        const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  },
+};
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+    </script>
 </section>
+
 <!-- power consumption Section End -->
 
 {% endblock %}
