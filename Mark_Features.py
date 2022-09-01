@@ -33,6 +33,6 @@ def map():
 def api_upload():
     if request.method == "GET":
         session["kwh"] = 431
-    MAP_DICT[session["district"]]+=431
+    MAP_DICT[session["district"]]+=19.8
     flash(f'Debug 431 kW/H for {session["district"]}', "warning")
     return render_template("index.html")

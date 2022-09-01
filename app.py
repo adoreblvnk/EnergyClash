@@ -23,6 +23,14 @@ conn.close()
 MAP_DICT = eval(MAPDATARAW[0][1])
 
 
+conn = sql.connect(config.DB_PATH)
+cur = conn.cursor()
+cur.execute("SELECT season, data FROM powerdata")
+pdr = cur.fetchall()
+conn.close()
+
+POWER_DICT = eval(pdr[0][1])
+
 
 # checks if user is logged in.
 def logged_in(f):
@@ -109,6 +117,7 @@ def register():
 
 @app.route("/prizes")
 def prizes():
+    flash("Check out the <a href='/map'>GAMEMAP</a> to see how close your district is! ", "warning")
     return render_template("prizes.html")
 
 
@@ -136,24 +145,13 @@ def upload_bill():
     return render_template("upload_bill.html")
 
 
-
-
-
-conn = sql.connect(config.DB_PATH)
-cur = conn.cursor()
-cur.execute("SELECT season, data FROM powerdata")
-pdr = cur.fetchall()
-conn.close()
-
-POWER_DICT = eval(pdr[0][1])
-
-
 @app.route("/power_consumption")
 @logged_in
 def power_consumption():
     if session.get("kwh"):
         data = {"kwh": session["kwh"]}
         return render_template("power_consumption.html", data=data, power_dict=POWER_DICT)
+    flash("Check out <a href='/product_rec'>RECOMMENDED PRODUCTS</a> for great energy-saving appliances that reduce energy usage! ", "warning")
     return render_template("power_consumption.html", power_dict=POWER_DICT)
 
 
