@@ -130,9 +130,9 @@ def upload_bill():
                 "kwh": kwh,
                 "img_output_path": img_output_path
             }
+            MAP_DICT[session["district"]]+=float(kwh)
             return render_template("upload_bill.html", data=data)
         flash("Cannot extract electricity consumption", "warning")
-    MAP_DICT[session["district"]]+=kwh
     return render_template("upload_bill.html")
 
 
