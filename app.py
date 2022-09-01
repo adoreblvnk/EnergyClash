@@ -14,6 +14,14 @@ ALLOWED_EMAILS=['peter@gmail.com','paul@gmail.com']
 if config.ENV == "live":
     os.system("sqlite3 database/energyclash.db < database/energyclash.sql")
 
+conn = sql.connect(config.DB_PATH)
+cur = conn.cursor()
+cur.execute("SELECT season, data FROM mapdata")
+MAPDATARAW = cur.fetchall()
+conn.close()
+
+MAP_DICT = eval(MAPDATARAW[0][1])
+
 
 
 # checks if user is logged in.
