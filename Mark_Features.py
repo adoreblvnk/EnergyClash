@@ -22,7 +22,7 @@ def map():
         MapJsVars = ''
         for i in MAP_DICT.keys():
             MapJsVars += f'"{i}": {MAP_DICT.get(i)},'
-        winners=sorted(MAP_DICT, key=MAP_DICT.get, reverse=True)[:3]
+        winners=sorted(MAP_DICT, key=MAP_DICT.get, reverse=True)[:5]
         flash("Season 1 of EnergyClash has started! It will run to 1st June 2023.", "success")
         return render_template('map.html',MapJsVars=MapJsVars,winners=winners)
 
