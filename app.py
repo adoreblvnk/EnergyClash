@@ -1,7 +1,8 @@
-import os
+import os, requests, re, itertools
 from functools import wraps
 import hashlib
 from flask import Flask, flash, redirect, render_template, request, session, url_for
+from bs4 import BeautifulSoup
 
 import config
 from utils import OCR, Database
@@ -28,9 +29,9 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/about")
-def about():
-    return render_template("about.html")
+@app.route("/product_rec")
+def product_rec():
+    return render_template("product_rec.html")
 
 
 @app.route("/hosting")
@@ -124,6 +125,86 @@ def power_consumption():
         return render_template("power_consumption.html", data=data)
     return render_template("power_consumption.html")
 
+@app.route("/product_rec/<product>")
+def product(product):
+    products = {
+        "refrigerators": "refrigerators",
+        "computer_monitors": "computer-monitors",
+        "washing_machines": "clothes-washers",
+        "dehumidifiers": "dehumidifiers",
+        "acs": "room-ac"
+    }
+    if product not in products.keys():
+        return render_template("404.html"), 404
+    prod = products[product]
+    product_url = f"https://www.energystar.gov/most-efficient/me-certified-{prod}/results?is_most_efficient_filter=Most+Efficient"
+    r = requests.get(product_url)
+    soup = BeautifulSoup(r.text, 'html.parser')
+    product_elements = soup.find_all("div", {"class": "title"})
+    # product_details = re.findall(r'<div class=\"label\">(.|\n)+<div class=\"value\">.+>',r.text)
+    # with open('blob.txt', 'w', errors='ignore') as f: f.write(r.text)
+
+    product_details = []
+    for item in soup.find_all('div', class_="field"):
+        if item.a is None:
+            product_details.append(item.parent.parent)
+    product_details = product_details[:5]
+
+    items = []
+    for item in product_details:
+        buf = item.findChildren("div", recursive=False)[1:]
+        dets = []
+        for i in buf:
+            if "CLICK FOR PRODUCT DETAILS" in str(i):
+                break
+            else:
+                dets.append(i)
+        items.append(dets)
+
+    labels_tmp = []
+    values_tmp = []
+    for item in items:
+        for divs in item:
+            labels_tmp.append(divs.find_all('div', {'class':'label'}))
+            values_tmp.append(divs.find_all('div', {'class':'value'}))
+    labels = []
+    values = []
+    for i in labels_tmp:
+        if i:
+            tmp = []
+            for a in i:
+                res = re.findall(r'>(.*?)<',str(a))[0]
+                tmp.append(res)
+            labels.append(tmp)
+
+    for i in values_tmp:
+        if i:
+            tmp = []
+            for a in i:
+                res = a.string
+                print(res)
+                # res = re.findall(r'>(.*?)<',str(a))[0]
+                tmp.append(res)
+            values.append(tmp)
+    labels = list(itertools.chain.from_iterable(labels))
+    values = list(itertools.chain.from_iterable(values))
+    print(labels)
+    print(values)
+
+    # print([label.string for label in labels])
+    # print([value.string for value in values])
+
+    # details_label = [i.find_all("div", {"class":"label"}) for i in product_details]
+    # details_value = [i.find_all("div", {"class":"value"}) for i in product_details]
+    # print(details_label)
+    # detail_value = [i.string for i in details_value]
+    # print(detail_value)
+    product_names = [re.findall(r'[a-zA-Z0-9].+[a-zA-Z0-9]',i.a.string) for i in product_elements][:5]
+    energy_star_url = "https://www.energystar.gov"
+    product_urls = [energy_star_url + endpoint for endpoint in re.findall(r"/productfinder/.+\d+", str(product_elements))[:5]]
+    # product_ids = re.findall(r"\d+", str(results))
+    return render_template("product_list.html", product=prod, product_names=product_names, product_urls=product_urls)
+
 
 @app.errorhandler(404)
 def page_not_found(e):
@@ -134,4 +215,4 @@ from Mark_Features import *
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=80, debug=True)
+    app.run(host="0.0.0.0", port=8880, debug=True)

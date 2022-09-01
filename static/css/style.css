@@ -2682,6 +2682,10 @@ ol {
     text-shadow: 5px 5px 0 #000000;
 }
 
+.product_images{
+    height:15vw;
+}
+
 .reveal{
   position: relative;
   transform: translateY(150px);
@@ -2703,6 +2707,7 @@ ol {
 
 .robot-size{
     height: 10vw;
+    cursor: pointer;
 }
 
 @keyframes confetti-slow {
@@ -2859,8 +2864,13 @@ ol {
 
 /* Wide Mobile = 480px */
 @media only screen and (max-width: 600px){
+    .product_images{
+        height:40vw;
+    }
+
     .robot-size{
         height: 24vw;
+        cursor: pointer;
     }
 
     .prize-title{
