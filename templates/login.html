@@ -23,12 +23,12 @@
         <h3>LOGIN</h3>
         <form method="POST">
           <div class="input-list form-group">
-            <input type="text" placeholder="Name" name="name" value="{{ request.form['name'] }}" required/>
+            <input placeholder="Email" name="name" type = 'email' value="{{ request.form['name'] }}" required/>
           </div>
           <div class="input-list form-group">
             <input type="password" placeholder="Password" name="password" value="{{ request.form['password'] }}" required minlength="8"/>
           </div>
-          <button type="submit" class="site-btn">Submit</button>
+          <button type="submit" style='animation: color-pulse 1s infinite;' class="site-btn">Log in</button>
         </form>
       </div>
     </div>

@@ -23,6 +23,7 @@ def logged_in(f):
 
 @app.route("/")
 def index():
+    flash("Error while creating new user", "danger")
     return render_template("index.html")
 
 

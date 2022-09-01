@@ -23,7 +23,7 @@
         <h3>REGISTER</h3>
         <form method="POST">
           <div class="input-list form-group">
-            <input type="text" placeholder="Name" name="name" value="{{ request.form['name'] }}" required/>
+            <input placeholder="Email" name="name" type = 'email'  value="{{ request.form['name'] }}" required/>
           </div>
           <div class="input-list form-group">
             <input type="password" placeholder="Password" name="password" value="{{ request.form['password'] }}" required minlength="8" onchange="pwConfirm()"/>
@@ -34,7 +34,7 @@
           <div class="input-list form-group">
             <input type="text" placeholder="District" name="district" value="{{ request.form['district'] }}" required/>
           </div>
-          <button type="submit" class="site-btn">Submit</button>
+          <button type="submit" class="site-btn" style="animation: color-pulse 1s infinite;">Register!</button>
         </form>
       </div>
     </div>
