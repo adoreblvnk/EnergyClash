@@ -5,16 +5,16 @@ MARK_TOKEN = 'Mark is Awesome.' #not required, used to test importing.
 import sqlite3 as sql
 
 #WARNING: Only Yishun, Sembawang, and Ang Mo Kio have valid coordinates on the client, so the top 3 must be one of these towns.
-
-
-
-conn = sql.connect(config.DB_PATH)
-cur = conn.cursor()
-cur.execute("SELECT season, data FROM mapdata")
-MAPDATARAW = cur.fetchall()
-conn.close()
-
-MAP_DICT = eval(MAPDATARAW[0][1])
+#
+#
+#
+# conn = sql.connect(config.DB_PATH)
+# cur = conn.cursor()
+# cur.execute("SELECT season, data FROM mapdata")
+# MAPDATARAW = cur.fetchall()
+# conn.close()
+#
+# MAP_DICT = eval(MAPDATARAW[0][1])
 
 @app.route('/map', methods=['GET'])
 def map():
