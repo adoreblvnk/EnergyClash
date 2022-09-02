@@ -1,0 +1,202 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<!-- Breadcrumb Begin -->
+<div class="breadcrumb-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="breadcrumb__option">
+                    <a href="{{ url_for('index') }}"><span class="fa fa-home"></span> Home</a>
+                    <span>Power Consumption</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Breadcrumb End -->
+
+<script>
+    var power_dict = {{power_dict | safe}};
+</script>
+<!-- power consumption Section Begin -->
+<section class="hosting-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="section-title">
+                    <h3>View Your Power Consumption</h3>
+                </div>
+                <div class="hosting__text">
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                            <div class="hosting__feature__table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>
+                                                <div class="hosting__feature__plan--choose">
+                                                    <div class="chose__title">View your power consumption over the months!</div>
+                                                    <a href="{{ url_for('upload_bill') }}" class="primary-btn">Upload now!</a>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="hosting__feature--plan">
+                                                    <div class="plan__title">Power Consumption</div>
+                                                    <div class="hosting__feature--price">
+                                                        <span>kWh</span>
+                                                    </div>
+                                                </div>
+                                            </th>
+                                            <th>
+                                                <div class="hosting__feature--plan">
+                                                    <div class="plan__title">Uploaded</div>
+                                                </div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td class="hosting__feature--item">January</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--close">
+                                                <span class="fa fa-times-circle-o"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">February</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--close">
+                                                <span class="fa fa-times-circle-o"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">March</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--close">
+                                                <span class="fa fa-times-circle-o"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">April</td>
+                                            <td class="hosting__feature--check">{{power_dict['April']}}</td>
+                                            <td class="hosting__feature--check">
+                                                <span class="fa fa-check-circle-o"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">May</td>
+                                            <td class="hosting__feature--check">{{power_dict['May']}}</td>
+                                            <td class="hosting__feature--check">
+                                                <span class="fa fa-check-circle-o"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">June</td>
+                                            <td class="hosting__feature--check">{{power_dict['June']}}</td>
+                                            <td class="hosting__feature--check">
+                                                <span class="fa fa-check-circle-o"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">July</td>
+                                            <td class="hosting__feature--check">{{power_dict['July']}}</td>
+                                            <td class="hosting__feature--check"><span
+                                                    class="fa fa-check-circle-o"></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">August</td>
+                                            {% if data %}
+                                            <td class="hosting__feature--check">{{ data['kwh'] }}</td>
+                                            <td class="hosting__feature--check">
+                                                <span class="fa fa-check-circle-o"></span>
+                                            </td>
+                                            <script>power_dict['August']= {{ data['kwh'] }};</script>
+                                            {% else %}
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--close">
+                                                <span class="fa fa-times-circle-o"></span>
+                                            </td>
+                                            <script>power_dict['August']=0;</script>
+                                            {% endif %}
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">September</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--check"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">October</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--check"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">November</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--check"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="hosting__feature--item">December</td>
+                                            <td class="hosting__feature--check"></td>
+                                            <td class="hosting__feature--check"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <br>
+
+
+<!--        Mark's chart.js bit -->
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <canvas id="myChart" style="animation: color-pulse 1s infinite;"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+
+</div>
+
+    <script>
+    const labels = ['April','May','June','July','August'];
+const data = {
+  labels: labels,
+  datasets: [{
+    label: 'Power Consumption',
+    data: Object.values(power_dict),
+    backgroundColor: [
+      '#8e82d9',
+    ],
+    borderColor: [
+      'rgb(18, 8, 81)',
+    ],
+    borderWidth: 1
+  }]
+};
+
+
+        const config = {
+  type: 'bar',
+  data: data,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true
+      }
+    }
+  },
+};
+
+  const myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+    </script>
+</section>
+
+<!-- power consumption Section End -->
+
+{% endblock %}

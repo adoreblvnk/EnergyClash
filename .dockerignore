@@ -1,0 +1,19 @@
+# git
+.git/
+.gitignore
+
+# python
+__pycache__/
+**/__pycache__/
+
+# venv
+venv/
+
+# database
+*.db
+
+# output dir
+static/uploads/
+
+# others
+README.md

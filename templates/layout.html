@@ -3,14 +3,18 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="description" content="Deerhost Template">
-    <meta name="keywords" content="Deerhost, unica, creative, html">
+    <meta name="description" content="EnergyClash Hackathon">
+    <meta name="keywords" content="EnergyClash, Hackathon">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>DEERHOST | Template</title>
+    <title>EnergyClash</title>
 
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+    <!-- Favicon -->
+	 <link rel="icon" type="image/x-icon" href="../static/img/ec_favicon.png">
+
 
     <!-- Css Styles -->
     <link rel="stylesheet" href="../static/css/bootstrap.min.css" type="text/css">
@@ -20,12 +24,13 @@
     <link rel="stylesheet" href="../static/css/owl.carousel.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="../static/css/style.css" type="text/css">
+    <link rel="stylesheet" href="../static/css/dropzone.css" type="text/css">
 </head>
 
 <body>
     <!-- Page Preloder -->
     <div id="preloder">
-        <div class="loader"></div>
+        <img class="loader" src="../static/img/ec_favicon.png" style="height:100px;width:100px;animation: color-pulse 1s infinite;">
     </div>
 
     {% include "includes/_navbar.html" %}
@@ -46,6 +51,7 @@
     <script src="../static/js/jquery.slicknav.js"></script>
     <script src="../static/js/owl.carousel.min.js"></script>
     <script src="../static/js/main.js"></script>
+    <script src="../static/js/dropzone.js"></script>
 </body>
 
 </html>

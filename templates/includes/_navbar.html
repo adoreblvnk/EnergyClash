@@ -9,31 +9,34 @@
     </div>
     <nav class="offcanvas__menu mobile-menu">
         <ul>
-            <li class="active"><a href="./">Home</a></li>
-            <li><a href="./about">About</a></li>
-            <li><a href="./hosting">Hosting</a></li>
-            <li><a href="#">Pages</a>
+            <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+
+            <li><a href="/map">Gamemap</a></li>
+            <li><a href="/prizes">Prizes</a></li>
+            <li><a href="/product_rec">Products</a></li>
+            <li><a href="#">MY ACCOUNT</a>
                 <ul class="dropdown">
-                    <li><a href="./pricing">Pricing</a></li>
-                    <li><a href="./blog-details">Blog Details</a></li>
-                    <li><a href="./404">404</a></li>
+                    <li><a href="/upload_bill">Upload Bill</a></li>
+                    <li><a href="/power_consumption">Power Consumption</a></li>
                 </ul>
             </li>
-            <li><a href="./blog">News</a></li>
-            <li><a href="./contact">Contact</a></li>
         </ul>
     </nav>
     <div id="mobile-menu-wrap"></div>
     <div class="offcanvas__auth">
         <ul>
-            <li><a href="#"><span class="icon_chat_alt"></span> Live chat</a></li>
-            <li><a href="#"><span class="fa fa-user"></span> Login / Register</a></li>
+            {% if session['logged_in'] %}
+            <li style="color:white"><span class="fa fa-user" style="color:white" ></span> Welcome, {{ session['name'] }}</li>
+            {% else %}
+            <li><span class="fa fa-user" style="color:white" ></span> <a href="{{ url_for('login') }}" style="display: inline-block">Login</a></li>
+            <li><span class="fa fa-address-card" style="color:white" ></span> <a href="{{ url_for('register') }}" style="display: inline-block">Register</a></li>
+            {% endif %}
         </ul>
     </div>
     <div class="offcanvas__info">
         <ul>
-            <li><span class="icon_phone"></span> +1 123-456-7890</li>
-            <li><span class="fa fa-envelope"></span> Support@gmail.com</li>
+            <li><span class="icon_phone"></span>1800 9734 3301</li>
+            <li style="font-size: 14px;"><span class="fa fa-envelope"></span> support@energyclash.com</li>
         </ul>
     </div>
 </div>
@@ -47,16 +50,20 @@
               <div class="col-lg-6 col-md-6">
                   <div class="header__info-left">
                       <ul>
-                          <li><span class="icon_phone"></span> +1 123-456-7890</li>
-                          <li><span class="fa fa-envelope"></span> Support@gmail.com</li>
+                          <li><span class="icon_phone"></span> 1800 9734 3301</li>
+                          <li><span class="fa fa-envelope"></span> support@energyclash.com</li>
                       </ul>
                   </div>
               </div>
               <div class="col-lg-6 col-md-6">
                   <div class="header__info-right">
                       <ul>
-                          <li><a href="#"><span class="icon_chat_alt"></span> Live chat</a></li>
-                          <li><a href="#"><span class="fa fa-user"></span> Login / Register</a></li>
+                          {% if session['logged_in'] %}
+                          <li style="color:white"><span class="fa fa-user" style="color:white" ></span> Welcome, {{ session['name'] }}</li>
+                          {% else %}
+                          <li><span class="fa fa-user" style="color:white" ></span> <a href="{{ url_for('login') }}" style="display: inline-block">Login</a></li>
+                          <li><span class="fa fa-address-card" style="color:white" ></span> <a href="{{ url_for('register') }}" style="display: inline-block">Register</a></li>
+                          {% endif %}
                       </ul>
                   </div>
               </div>
@@ -67,24 +74,23 @@
       <div class="row">
           <div class="col-lg-3 col-md-3">
               <div class="header__logo">
-                  <a href="./"><img src="../static/img/logo.png" alt=""></a>
+                  <a href="{{ url_for('index') }}"><img src="../static/img/logo.png" alt=""></a>
               </div>
           </div>
           <div class="col-lg-9 col-md-9">
               <nav class="header__menu">
                   <ul>
-                      <li class="active"><a href="./">Home</a></li>
-                      <li><a href="./about">About</a></li>
-                      <li><a href="./hosting">Hosting</a></li>
-                      <li><a href="#">Pages</a>
+                      <li class="active"><a href="{{ url_for('index') }}">Home</a></li>
+
+                      <li><a href="/map">Gamemap</a></li>
+                      <li><a href="/prizes">Prizes</a></li>
+                      <li><a href="/product_rec">Products</a></li>
+                      <li><a href="#">MY ACCOUNT</a>
                           <ul class="dropdown">
-                              <li><a href="./pricing">Pricing</a></li>
-                              <li><a href="./blog-details">Blog Details</a></li>
-                              <li><a href="./404">404</a></li>
+                            <li><a href="/upload_bill">Upload Bill</a></li>
+                            <li><a href="/power_consumption">Power Consumption</a></li>
                           </ul>
                       </li>
-                      <li><a href="./blog">News</a></li>
-                      <li><a href="./contact">Contact</a></li>
                   </ul>
               </nav>
           </div>
