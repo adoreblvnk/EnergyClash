@@ -153,6 +153,7 @@ def upload_bill():
 def power_consumption():
     if session.get("kwh"):
         data = {"kwh": session["kwh"]}
+        flash("Check out the <a href='/map'>GAMEMAP</a> to see how close your district is! ", "warning")
         return render_template("power_consumption.html", data=data, power_dict=POWER_DICT)
     flash("Check out <a href='/product_rec'>RECOMMENDED PRODUCTS</a> for great energy-saving appliances that reduce energy usage! ", "warning")
     return render_template("power_consumption.html", power_dict=POWER_DICT)
