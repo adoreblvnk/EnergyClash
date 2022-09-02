@@ -15,5 +15,10 @@ venv/
 # output dir
 static/uploads/
 
+# heroku
+Procfile
+Aptfile
+
 # others
 README.md
+assets/

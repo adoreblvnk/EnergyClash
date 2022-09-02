@@ -2,10 +2,6 @@ FROM python:3.9.13-buster
 
 WORKDIR /app
 
-COPY requirements.txt requirements.txt
-
-RUN pip3 install -r requirements.txt
-
 # add your dependencies here!
 RUN apt-get update 
 
@@ -17,6 +13,10 @@ RUN apt-get install -y sqlite3
 
 # library for opencv
 RUN apt-get install -y python3-opencv
+
+COPY requirements.txt requirements.txt
+
+RUN pip3 install -r requirements.txt
 
 COPY . .
 
