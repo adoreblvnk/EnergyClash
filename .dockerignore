@@ -9,6 +9,12 @@ __pycache__/
 # venv
 venv/
 
+# pycharm
+.idea/
+
+# vscode
+.vscode/
+
 # database
 *.db
 
@@ -22,3 +28,4 @@ Aptfile
 # others
 README.md
 assets/
+LICENSE
