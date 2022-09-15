@@ -72,6 +72,8 @@ OCR (Optical Character Recognition) is used to extract power consumption.
 
 https://user-images.githubusercontent.com/83258252/190412285-518caa2c-78d5-4a55-ab55-fd3d82ba86f1.mp4
 
+Heroku URL: [energyclash.herokuapp.com](https://energyclash.herokuapp.com/)
+
 ## Getting Started
 
 ### Prerequisites <!-- optional -->
