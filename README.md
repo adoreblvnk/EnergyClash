@@ -70,7 +70,7 @@ OCR (Optical Character Recognition) is used to extract power consumption.
 
 ### Demo Video (for Github only)
 
-
+https://user-images.githubusercontent.com/83258252/190412285-518caa2c-78d5-4a55-ab55-fd3d82ba86f1.mp4
 
 ## Getting Started
 
