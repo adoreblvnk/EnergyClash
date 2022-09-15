@@ -16,6 +16,7 @@
 
 - [About](#about)
 - [Demo](#demo)
+  - [Demo Video (for Github only)](#demo-video-for-github-only)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
 - [Usage](#usage)
@@ -67,6 +68,10 @@ OCR (Optical Character Recognition) is used to extract power consumption.
 
 <img src="assets/recommended_product_item.png" width="1000">
 
+### Demo Video (for Github only)
+
+https://user-images.githubusercontent.com/83258252/190412285-518caa2c-78d5-4a55-ab55-fd3d82ba86f1.mp4
+
 ## Getting Started
 
 ### Prerequisites <!-- optional -->
@@ -94,6 +99,7 @@ This project is licensed under the terms of the MIT license.
 
 ## Credits
 
+- Github: [https://github.com/adoreblvnk/EnergyClash](https://github.com/adoreblvnk/EnergyClash)
 - blvnk
 - [MarkB-NYP](https://github.com/MarkB-NYP)
 - [Jong Han](https://github.com/YeoJongHan)
