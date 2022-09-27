@@ -32,7 +32,7 @@ Submission for Code Overflow 2022's problem statement: "How can we leverage tech
 
 *NOTE:* Heroku has [announced](https://blog.heroku.com/next-chapter) that all free hosting will end Nov 28 2022. With that said, hosting on Heroku will require 3 buildpacks, heroku/python, [heroku-buildpack-apt](https://buildpack-registry.s3.amazonaws.com/buildpacks/heroku-community/apt.tgz), [heroku-buildpack-tesseract](https://github.com/pathwaysmedical/heroku-buildpack-tesseract.git).
 
-## Demo <!-- optional -->
+## Demo
 
 **Home**
 
@@ -76,11 +76,11 @@ Heroku URL: [energyclash.herokuapp.com](https://energyclash.herokuapp.com/)
 
 ## Getting Started
 
-### Prerequisites <!-- optional -->
+### Prerequisites
 
 - Docker
 
-## Usage <!-- optional -->
+## Usage
 
 1. Build Image
    - ```
@@ -95,7 +95,7 @@ Heroku URL: [energyclash.herokuapp.com](https://energyclash.herokuapp.com/)
 
 **Debugging:** `docker run -p 5000:5000 -it energyclash bash`
 
-## License <!-- optional -->
+## License
 
 This project is licensed under the terms of the MIT license.
 
