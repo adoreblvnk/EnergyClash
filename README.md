@@ -5,7 +5,7 @@
       Web app targeted at reducing household electricity consumption via gamification.
     </p>
     <p>
-      Python • Flask • SQLite • Bootstrap • Dropzone.js • Leaflet.js • Chart.js • Tesseract • OpenCV • Docker • Heroku 
+      Built with: Python • Flask • SQLite • Bootstrap • Dropzone.js • Leaflet.js • Chart.js • Tesseract • OpenCV • Docker • Heroku 
     </p> <!-- Description -->
 </div>
 
